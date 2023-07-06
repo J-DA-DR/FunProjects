@@ -1,0 +1,144 @@
+import sys
+import random
+
+class User: # Set up your level depending on difficulty
+    def __init__ (self, level):
+        self.level = level
+
+class Monster(User): # Monsters you see in the game
+    def __init__ (self, name, status, level):   
+        self.name = name
+        self.status = status
+        super().__init__(level)
+
+    def attack(self, d_object):
+        inp_at = input(f'Your combat level is {d_object.level} and you are about to attack {self.name} who has a combat level of {self.level}... Proceed? (Y/N):')
+        if inp_at == "Y" or inp_at == "y":
+            if self.level >= d_object.level:
+                input(f"""{self.name} killed you """)
+                print("\nGame over...")
+                sys.exit()
+            else:
+                d_object.level += 1.5
+                input(f"""User leveled up by 1.5, User level now {d_object.level}""")
+                return(True)
+        if inp_at == "N" or inp_at == "n":
+            input("You decide this fight isn't worth it and run for your life")
+
+class People(User): 
+    def __init__ (self, name, status, level):
+        self.name = name
+        self.status = status
+        super().__init__(level)
+
+    def duel(self, d_object):
+        respH = input(f"""You {d_object.level} are about to duel {self.name} with a level of {self.level}. Do you wish to proceed? (Y/N):  """)
+        if respH == "Y":
+            if self.level >= d_object.level:
+                d_object.level -= 1
+                input(f"""{self.name} wounds you""")
+                return(False)
+            else:
+                d_object.level += 1
+                return(True)
+        if respH == "N":
+            input("You run away... ")
+            return None
+
+def dice(): 
+    dList = [1, 2, 3, 4, 5, 6]
+    roll = random.choices(dList, weights=(10, 20, 40, 40, 15, 30), k=1)
+    return roll[0]
+
+def encounter(rNum):
+    if rNum == 1:
+        input("You walk away from the traditional path and find a large hollow cave, continuing forward and find a enormous chained monster")
+        input("You ready your sword and slowly approach the creature. It's purple eyes quickly light up and stare at you")
+        input("The monster explains that this is it's grave and that you should leave. Before exiting he gives you advice on monsters and allows you to take his small weapon")
+        user.level += 2
+        input("You find his weapon in a sword sheathe and take it with you leaving your rusty old sword behind")
+        user.level += 3
+        input("User's level went up by 5")
+    if rNum == 2:
+        lChoice = input("You find a bloody corpse with what seems to be a still breathing man. Do you try to help him? (Y/N): ")
+        if lChoice == 'Y':
+            input("The man quickly turns into a snakelike monster and bites you before you can even react and slithers away")
+            input("You're hurt, but the fangs didn't penetrate enough for it to be a mortal wound. You seal the wound and continue")
+            user.level -= 2
+            input("User's level went down by 2")
+        if lChoice == 'N':
+            input("You feel uneasy about the situation and go back where you came from")
+    if rNum == 3:
+        print("While treking the outerlands you find a dagger buried into the soil. It's surprisingly undamaged. You decide it would be best to keep it.")
+        user.level += 1
+        input("User's level went up by 1")
+    if rNum == 4: 
+        input("While adventuring you find a caravan and share stories with the other well-armed men then go on your way")
+    if rNum == 5: 
+        input("You stumble on a wounded man. His hand covers his leaking wound. ")
+        input("You offer your help but he declines and tells you of this recipe of oil to cut through monsters much more easily. ")
+        input("You write the formula and thank the wounded man with a quick death. ")
+        user.level += 3
+        input("User's level went up by 3")
+    if rNum == 6: 
+        input("You adventure into the outerlands and quickly get ambushed by a small gang of monsters.")
+        input("The biggest one slashes at you and partially catches your arm")
+        input("You slice through its tentacle and sprint through the brush until you can no longer hear their screeches")
+        user.level -= 2
+        input("User's level went down by 2")
+
+ 
+print("Welcome to the Crazy Warrior Game. Your goal is to defeat the Monster city of Alza \n") 
+start = input("Choose your difficulty (e = easy or h = hard): ")  
+if start == "e":
+    user = User(3)
+if start == "h":
+    user = User(2)
+
+monster1 = Monster("Alloch", "Neutral", 2) 
+monster2 = Monster("Polle", "Hostile", 3)
+people2 = People("Ren", "Neutral", 1)
+rollDL2 = [] 
+print("\n" ,f"""You've arrived in the swamp-land of Tunda, after a year long of traveling. The land of Tunda is undergoing a war between the Monsters and the humans. The outerlands is the land that most don't trek but can reap rewards.""")
+choice1 = int(input("\n\nWhat would you like to do? (1 = Find a monster to duel, 2 = Find humans for a job or to fight, 3 = walk into the outerlands): ")) 
+if choice1 == 1:
+    print("You walk into Monster country eager to kill a straying grunt from a group of monsters")
+    input(f"""You find one small monster and it introduces itself as {monster1.name} and attacks you: """)
+    res1 = monster1.attack(user)
+    if res1:
+        input(f"""You parry {monster1.name}'s attack and lunge your blade into its chest... """)
+if choice1 == 2: 
+    choice2 = input("\n\nYou find a man with makeshift equipment similar to yours. Do you approach him: (y = yes, n = no): ")
+    if choice2 == "y":  
+        input(f"""You greet the man and he introduces himself as {people2.name}""")
+        input("He is uneasy and you can tell he has something on his mind")
+        resp2 = int(input("What do you do? (1 = knock some sense into him for stealing your look, 2 = ask if he has a favor to ask): "))
+        if resp2 == 1:
+            res12 = people2.duel(user) 
+            if res12:
+                input("You throw a few punches and knock him onto the ground and continue on you way. ")
+                input("Your level has went up by 1. ")
+            if res12 is False:
+                input("You charge the man. Your lookalike pulls a rock from his satchel and throws it right at your head")
+                input("Dazed you fall to the ground and catch your breath. As you get back on your feet the copycat is gone.")
+                input("Your level has went down by 1. ")
+            if res12 is None:
+                input("You run back where you came from ")
+        if resp2 == 2:
+            input(f"""You ask {people2.name} of his favor. He explains to you that a monster has killed his brother and he needs you to avenge him as he doesn't want to do it alone. """)
+            input(f"""you agree and follow {people2.name}. He takes you to a plant monster named {monster2.name} that was feasting and you two begin your attack.""")
+            input(f"""User level has temporarily increased by {people2.level} with the addition of {people2.name}""") 
+            user.level += people2.level
+            res = monster2.attack(user)
+            if res:
+                input(f"""You and {people2.name} take turns slicing and defending against the roots of this monster and eventually break through to its core. Killing {monster2.name}""")
+                user.level += 1
+                input(f"""After your collaborative effort you leveled up by 1""")
+                input(f"""The man grins wide and takes the ruptured core of the monster and walks off leaving you without saying a word.""")
+    if choice2 == "n":
+        input("You decide its best not to interact with him and continue on your way. ")
+if choice1 == 3:
+    rollD = dice()
+    print(rollD)
+    rollDL2.append(rollD)
+    encounter(rollD)
