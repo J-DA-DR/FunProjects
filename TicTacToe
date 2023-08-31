@@ -1,0 +1,35 @@
+import turtle
+
+#Tic tac toe program, board set up
+
+turtle.pensize(10)
+
+forward(200)
+home()
+backward(200)
+
+penup()
+left(90)
+forward(100)
+pendown()
+
+right(90)
+forward(400)
+
+penup()
+setx(100)
+sety(200)
+right(90)
+pendown()
+
+
+forward(315)
+
+penup()
+setx(-75)
+left(180)
+pendown()
+
+forward(315)
+
+Screen().exitonclick()
