@@ -1,4 +1,4 @@
-import turtle
+from turtle import *
 
 #Tic tac toe program, board set up
 
