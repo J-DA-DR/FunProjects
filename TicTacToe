@@ -33,13 +33,29 @@ pendown()
 
 forward(315)
 
+#center blank
 penup()
 right(105)
 setx(0)
-sety(70)
+sety(20)
 pendown()
 
-left(15)
-forward(30)
+turtle.circle(30)
+
+#center, bottom blank
+penup()
+setx(0)
+sety(-90)
+pendown()
+
+turtle.circle(30)
+
+#center, top blank
+penup()
+setx(0)
+sety(125)
+pendown()
+
+turtle.circle(30)
 
 Screen().exitonclick()
