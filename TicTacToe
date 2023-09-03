@@ -1,8 +1,46 @@
 from turtle import *
 import turtle
 
-#Tic tac toe program, board set up
-
+#Tic tac toe program
+def u_input(answer):
+    list1 = ["TL", "TC", "TR", "CL", "CM", "CR", "BL", "BC", "BR"]
+    p_choice = input("What choice would you like to make (Top Left = TL, Top Center = TC, Top Right = TR, Center Left = CL, Center Middle = CM, Center Right = CR, Bottom Left = BL, Bottom Center = BC, Bottom Right = BR)")
+    if p_choice in list1:
+        penup()
+        if p_choice == "TL":
+            setx(-150)
+            sety(125)
+        if p_choice == "TC":
+            setx(0)
+            sety(125)
+        if p_choice == "TR":
+            setx(150)
+            sety(125)
+        if p_choice == "CL":
+            setx(-150)
+            sety(20)
+        if p_choice == "CM":
+            setx(0)
+            sety(20)
+        if p_choice == "CR":
+            setx(150)
+            sety(20)
+        if p_choice == "BL":
+            setx(-150)
+            sety(-90)
+        if p_choice == "BC":
+            setx(0)
+            sety(-90)
+        if p_choice == "BR":
+            setx(150)
+            sety(-90)
+        pendown()
+        if answer == "o" or answer == "O":
+            turtle.circle(30)
+        if answer == "x" or answer == "X":
+            print("ggggggggggggggggggg")
+    
+#Tic tac toe program
 turtle.pensize(10)
 
 forward(200)
@@ -31,31 +69,11 @@ setx(-75)
 left(180)
 pendown()
 
-forward(315)
-
-#center blank
-penup()
+forward(315) 
 right(105)
-setx(0)
-sety(20)
-pendown()
-
-turtle.circle(30)
-
-#center, bottom blank
-penup()
-setx(0)
-sety(-90)
-pendown()
-
-turtle.circle(30)
-
-#center, top blank
-penup()
-setx(0)
-sety(125)
-pendown()
-
-turtle.circle(30)
+    
+u = input("o or x")
+for i in range(5):
+    u_input(u)
 
 Screen().exitonclick()
