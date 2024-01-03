@@ -1,0 +1,131 @@
+import random
+
+class Card:
+    def __init__ (self, suit, value, value2):
+        self.suit = suit
+        self.value = value
+        self.value2 = value2
+        
+    def __str__ (self):
+        return f'{self.value} of {self.suit}, value {self.value2}'
+
+
+def dfill(suit): #Fill the deck
+    value = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
+    wild = ["Ace", "Jack", "Queen", "King"]
+    for i in range(10): 
+        Deck.append(Card(suit, value[i], i+1))
+    for t in wild:
+        if "Ace" == t:
+            Deck.append(Card(suit, t, 1))
+            continue
+        Deck.append(Card(suit, t, 10))
+
+
+def draw(hand2): # Draws the card and removes it from the deck
+    hand2.append(Deck[0])
+    del Deck[0]
+    return hand2
+
+
+def total(hand, final): #Calculates the total of a hand
+    tot1 = 0
+    vTot = 21
+    for v, g in enumerate(hand):
+        v += 1
+        vTot -=  g.value2
+        if g.value == "Ace": 
+            te = g
+            hand.remove(g) 
+            hand.append(te)
+        if len(hand) == v and g.value == "Ace":            
+            if vTot >= 10:
+                vTot -= 10
+                tot1 += 10
+        tot1 += g.value2  
+    return tot1
+
+
+def printOb(Decke, uNum): # uNum for dictate user and computer
+    if uNum == 1:
+        print(f"\nYour hand has: ")
+        for iterator in Decke:
+            print(f'{iterator.value} of {iterator.suit}')
+        print(f'Total value is, {total(Decke, 0)}') 
+    if uNum == 2:
+        print(f"\nDealer's hand has: ")
+        for iterator in Decke:
+            print(f'{iterator.value} of {iterator.suit}')
+        print(f'Total value is, {total(Decke, 0)}') 
+
+
+Deck = []
+dfill("Hearts")
+dfill("Clubs")
+dfill("Spades")
+dfill("Diamonds")
+choices = ['s', 'S', 'h', 'H', 'V', 'v']
+sChoice = ['y', 'Y', 'N', 'n']
+
+
+while True:
+    Deck2 = [] #User's hand
+    Deck3 = [] #Dealer's hand
+    startChoice = input("\nWould you like to play Blackjack? (y/n): ")
+    random.shuffle(Deck)
+    draw(Deck2)
+    draw(Deck2)
+    draw(Deck3)
+    t = ""
+    if startChoice in sChoice: 
+        if startChoice == 'y' or startChoice == 'Y': 
+            while True:
+                printOb(Deck3, 2)
+                total(Deck2, 1)
+                if total(Deck2, 1) == 21: 
+                    printOb(Deck2, 1)
+                    print(f"\nBlackjack!")
+                    t = "s"
+                if total(Deck2, 1) > 21:
+                    printOb(Deck2, 1)
+                    print(f"\nBust!")
+                    break
+                if t == "s":
+                    pass
+                else:
+                    printOb(Deck2, 1)
+                    t = input("\nWhat would you like to do? (stand[S/s], Hit[H/h]): ")
+                if t in choices:
+                    if t == 'S' or t == 's':
+                        input(f"\nDealer's turn ")
+                        draw(Deck3)
+                        while True:
+                            total(Deck3, 1)
+                            printOb(Deck3, 2)
+                            if total(Deck3, 1) == 21:
+                                input(f"\nDealer has Blackjack")
+                                break
+                            if total(Deck3, 1) > 21:
+                                input(f"\nDealer has Busted")
+                                break
+                            if total(Deck3, 1) <= 16:
+                                input(f"\nDealer hits ")
+                                draw(Deck3)
+                                continue
+                            input(f"\nDealer stands ")
+                            break
+                        break
+                    if t == 'H' or t =='h':
+                        draw(Deck2)
+            if total(Deck2, 1) > total(Deck3, 1) and total(Deck2, 1) <= 21:
+                print("\nGame has ended you win!")
+            if total(Deck2, 1) == total(Deck3, 1):
+                print("\nGame has ended in a draw")
+            if total(Deck2, 1) < total(Deck3, 1) and total(Deck3, 1) <= 21:
+                print("\nGame has ended the dealer wins")
+            continue
+        if startChoice == 'n' or startChoice == 'N':
+            print(f"Thanks for playing.")
+            break
+    else:
+        print(f"Wrong input")
